@@ -9,18 +9,18 @@ public class Agent
 {
     private readonly string _name;
     private readonly GoapPlanner _planner;
-    private readonly Dictionary<string, ISensor<object>> _sensors = new();
-    private readonly List<IChecklistCondition> _checklistConditions = new();
-    private readonly List<GoapAction> _availableActions = new();
+    private readonly Dictionary<string, ISensor<object>> _sensors = [];
+    private readonly List<IChecklistCondition> _checklistConditions = [];
+    private readonly List<GoapAction> _availableActions = [];
     
     private AgentState _currentState = AgentState.Idle;
-    private List<GoapAction> _currentPlan = new();
+    private List<GoapAction> _currentPlan = [];
     private int _currentActionIndex = 0;
     
     /// <summary>
     /// The current world state as perceived by the agent.
     /// </summary>
-    public Dictionary<string, bool> WorldState { get; private set; } = new();
+    public Dictionary<string, bool> WorldState { get; private set; } = [];
     
     /// <summary>
     /// The current perceptual context of the agent.

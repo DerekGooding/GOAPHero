@@ -6,7 +6,7 @@ namespace GOAPHero.Sensors;
 public class TypedProximitySensor<T> : ISensor<List<T>> where T : GameObject
 {
     private readonly Func<List<GameObject>> _worldObjectsProvider;
-    private readonly Vector3 _position;
+    private Vector3 _position;
     private readonly float _radius;
 
     /// <summary>

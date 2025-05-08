@@ -49,7 +49,7 @@ public class EnhancedGoapPlanner : GoapPlanner
         // Check if the goal is already satisfied
         if (goal.All(g => currentState.TryGetValue(g.Key, out var val) && val == g.Value))
         {
-            return new List<GoapAction>();
+            return [];
         }
 
         // Initialize the open and closed sets for A* search
@@ -127,7 +127,7 @@ public class EnhancedGoapPlanner : GoapPlanner
         }
         
         // No plan found
-        return new List<GoapAction>();
+        return [];
     }
 
     /// <summary>

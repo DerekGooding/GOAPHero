@@ -1,14 +1,8 @@
 namespace GOAPHero.Core;
 
-public sealed class GameObject
+public class GameObject(string name, Vector3 position)
 {
-    public string Name { get; init; }
-    public Vector3 Position { get; init; }
-    public Dictionary<string, object> Properties { get; } = new();
-
-    public GameObject(string name, Vector3 position)
-    {
-        Name = name;
-        Position = position;
-    }
+    public string Name { get; init; } = name;
+    public Vector3 Position { get; init; } = position;
+    public Dictionary<string, object> Properties { get; } = [];
 }

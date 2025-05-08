@@ -20,7 +20,7 @@ public class GoapPlanner
         // If the goal is already satisfied, no plan is needed
         if (goal.All(g => currentState.TryGetValue(g.Key, out var val) && val == g.Value))
         {
-            return new List<GoapAction>();
+            return [];
         }
         
         var plan = new List<GoapAction>();
@@ -49,7 +49,7 @@ public class GoapPlanner
         }
         
         // Try to build a plan recursively
-        return BuildPlanRecursive(state, goal, executableActions, new List<GoapAction>(), 0, 5);
+        return BuildPlanRecursive(state, goal, executableActions, [], 0, 5);
     }
     
     /// <summary>
@@ -73,7 +73,7 @@ public class GoapPlanner
         // Check if we've reached the maximum recursion depth
         if (depth >= maxDepth)
         {
-            return new List<GoapAction>();
+            return [];
         }
         
         // Check if the goal is already satisfied
@@ -118,6 +118,6 @@ public class GoapPlanner
         }
         
         // No plan found
-        return new List<GoapAction>();
+        return [];
     }
 }

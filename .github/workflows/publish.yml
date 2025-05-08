@@ -41,6 +41,9 @@ jobs:
             echo "run_publish=false" >> $GITHUB_ENV
           fi
 
+      - name: Restore dependencies
+        run: dotnet restore
+
       - name: Build
         run: dotnet build --configuration Release --no-restore
 

@@ -47,7 +47,7 @@ public class GoapAction(
     /// <summary>
     /// The cost of executing this action. Higher values make the action less desirable.
     /// </summary>
-    public float Cost { get; set; } = cost;
+    public virtual float Cost { get; set; } = cost;
 
     /// <summary>
     /// Returns a string representation of the action.

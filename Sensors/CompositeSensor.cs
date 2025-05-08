@@ -4,18 +4,13 @@ namespace GOAPHero.Sensors;
 /// A sensor that combines the results of multiple sensors.
 /// </summary>
 /// <typeparam name="T">The type of data sensed.</typeparam>
-public class CompositeSensor<T> : ISensor<List<T>>
+/// <remarks>
+/// Creates a new composite sensor.
+/// </remarks>
+/// <param name="sensors">The sensors to combine.</param>
+public class CompositeSensor<T>(params ISensor<List<T>>[] sensors) : ISensor<List<T>>
 {
-    private readonly List<ISensor<List<T>>> _sensors;
-
-    /// <summary>
-    /// Creates a new composite sensor.
-    /// </summary>
-    /// <param name="sensors">The sensors to combine.</param>
-    public CompositeSensor(params ISensor<List<T>>[] sensors)
-    {
-        _sensors = sensors.ToList();
-    }
+    private readonly List<ISensor<List<T>>> _sensors = [.. sensors];
 
     /// <summary>
     /// Adds a sensor to the composite.

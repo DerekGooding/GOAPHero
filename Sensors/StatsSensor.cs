@@ -3,18 +3,13 @@ namespace GOAPHero.Sensors;
 /// <summary>
 /// A sensor that returns the stats of an agent.
 /// </summary>
-public class StatsSensor : ISensor<Dictionary<StatType, float>>
+/// <remarks>
+/// Creates a new stats sensor.
+/// </remarks>
+/// <param name="statsProvider">A function that provides the stats.</param>
+public class StatsSensor(Func<Dictionary<StatType, float>> statsProvider) : ISensor<Dictionary<StatType, float>>
 {
-    private readonly Func<Dictionary<StatType, float>> _statsProvider;
-
-    /// <summary>
-    /// Creates a new stats sensor.
-    /// </summary>
-    /// <param name="statsProvider">A function that provides the stats.</param>
-    public StatsSensor(Func<Dictionary<StatType, float>> statsProvider)
-    {
-        _statsProvider = statsProvider;
-    }
+    private readonly Func<Dictionary<StatType, float>> _statsProvider = statsProvider;
 
     /// <summary>
     /// Senses the stats.

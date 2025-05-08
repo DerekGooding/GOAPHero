@@ -22,13 +22,13 @@ public class GoapPlanner
         {
             return [];
         }
-        
+
         var plan = new List<GoapAction>();
         var state = new Dictionary<string, bool>(currentState);
-        
+
         // Filter actions to only those that can be executed
         var executableActions = availableActions.Where(a => a.CanExecute()).ToList();
-        
+
         // Check if any action can satisfy the goal
         foreach (var action in executableActions)
         {
@@ -39,7 +39,7 @@ public class GoapPlanner
                 {
                     newState[effect.Key] = effect.Value;
                 }
-                
+
                 if (goal.All(g => newState.TryGetValue(g.Key, out var val) && val == g.Value))
                 {
                     plan.Add(action);
@@ -47,11 +47,11 @@ public class GoapPlanner
                 }
             }
         }
-        
+
         // Try to build a plan recursively
         return BuildPlanRecursive(state, goal, executableActions, [], 0, 5);
     }
-    
+
     /// <summary>
     /// Recursively builds a plan to achieve the goal.
     /// </summary>
@@ -75,20 +75,20 @@ public class GoapPlanner
         {
             return [];
         }
-        
+
         // Check if the goal is already satisfied
         if (goal.All(g => state.TryGetValue(g.Key, out var val) && val == g.Value))
         {
-            return new List<GoapAction>(currentPlan);
+            return [.. currentPlan];
         }
-        
+
         // Try each action
         foreach (var action in actions)
         {
             // Skip actions that are already in the plan to avoid cycles
             if (currentPlan.Contains(action))
                 continue;
-                
+
             // Check if the action's preconditions are satisfied
             if (action.Preconditions.All(p => state.TryGetValue(p.Key, out var val) && val == p.Value))
             {
@@ -98,16 +98,16 @@ public class GoapPlanner
                 {
                     newState[effect.Key] = effect.Value;
                 }
-                
+
                 // Add the action to the plan
                 var newPlan = new List<GoapAction>(currentPlan) { action };
-                
+
                 // Check if the goal is now satisfied
                 if (goal.All(g => newState.TryGetValue(g.Key, out var val) && val == g.Value))
                 {
                     return newPlan;
                 }
-                
+
                 // Recursively try to build a plan from the new state
                 var result = BuildPlanRecursive(newState, goal, actions, newPlan, depth + 1, maxDepth);
                 if (result.Count > 0)
@@ -116,7 +116,7 @@ public class GoapPlanner
                 }
             }
         }
-        
+
         // No plan found
         return [];
     }

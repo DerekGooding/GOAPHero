@@ -28,6 +28,6 @@ public class ProximitySensor(Func<List<GameObject>> worldObjectsProvider, Vector
     public List<GameObject> Sense()
     {
         var allObjects = _worldObjectsProvider();
-        return allObjects.Where(obj => Vector3.Distance(_position, obj.Position) <= _radius).ToList();
+        return [.. allObjects.Where(obj => Vector3.Distance(_position, obj.Position) <= _radius)];
     }
 }

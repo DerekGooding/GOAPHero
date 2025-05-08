@@ -1,10 +1,4 @@
 namespace GOAPHero.Planning;
-
-using GOAPHero.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 /// <summary>
 /// An advanced GOAP planner that supports costs and heuristics to find optimal plans.
 /// </summary>
@@ -13,23 +7,14 @@ public class EnhancedGoapPlanner : GoapPlanner
     /// <summary>
     /// Represents a node in the A* search algorithm for GOAP planning.
     /// </summary>
-    private class PlanNode
+    private class PlanNode(Dictionary<string, bool> state, GoapAction? action, EnhancedGoapPlanner.PlanNode? parent, float runningCost, float heuristicCost)
     {
-        public Dictionary<string, bool> State { get; }
-        public GoapAction? Action { get; }
-        public PlanNode? Parent { get; }
-        public float RunningCost { get; }
-        public float HeuristicCost { get; }
+        public Dictionary<string, bool> State { get; } = state;
+        public GoapAction? Action { get; } = action;
+        public PlanNode? Parent { get; } = parent;
+        public float RunningCost { get; } = runningCost;
+        public float HeuristicCost { get; } = heuristicCost;
         public float TotalCost => RunningCost + HeuristicCost;
-
-        public PlanNode(Dictionary<string, bool> state, GoapAction? action, PlanNode? parent, float runningCost, float heuristicCost)
-        {
-            State = state;
-            Action = action;
-            Parent = parent;
-            RunningCost = runningCost;
-            HeuristicCost = heuristicCost;
-        }
     }
 
     /// <summary>
@@ -55,7 +40,7 @@ public class EnhancedGoapPlanner : GoapPlanner
         // Initialize the open and closed sets for A* search
         var openSet = new List<PlanNode>();
         var closedSet = new HashSet<string>(); // Using serialized state as the key
-        
+
         // Create the start node
         var startNode = new PlanNode(
             new Dictionary<string, bool>(currentState),
@@ -63,56 +48,56 @@ public class EnhancedGoapPlanner : GoapPlanner
             null,
             0,
             CalculateHeuristic(currentState, goal));
-        
+
         openSet.Add(startNode);
-        
-        int iterations = 0;
-        
+
+        var iterations = 0;
+
         while (openSet.Count > 0 && iterations < maxIterations)
         {
             iterations++;
-            
+
             // Find the node with the lowest cost
             var current = openSet.OrderBy(n => n.TotalCost).First();
             openSet.Remove(current);
-            
+
             // Skip if this state has already been processed
-            string stateKey = SerializeState(current.State);
+            var stateKey = SerializeState(current.State);
             if (closedSet.Contains(stateKey))
                 continue;
-                
+
             closedSet.Add(stateKey);
-            
+
             // Check if the goal is achieved
             if (goal.All(g => current.State.TryGetValue(g.Key, out var val) && val == g.Value))
             {
                 // Goal achieved, build the plan
                 return BuildPlan(current);
             }
-            
+
             // Explore applicable actions
             foreach (var action in availableActions)
             {
                 // Skip actions that cannot be executed
                 if (!action.CanExecute())
                     continue;
-                    
+
                 // Check if the action's preconditions are satisfied
                 if (!action.Preconditions.All(p => current.State.TryGetValue(p.Key, out var val) && val == p.Value))
                     continue;
-                    
+
                 // Apply the action's effects to create a new state
                 var newState = new Dictionary<string, bool>(current.State);
                 foreach (var effect in action.Effects)
                 {
                     newState[effect.Key] = effect.Value;
                 }
-                
+
                 // Calculate the cost of the new state
-                float actionCost = action.Cost;
-                float newRunningCost = current.RunningCost + actionCost;
-                float heuristicCost = CalculateHeuristic(newState, goal);
-                
+                var actionCost = action.Cost;
+                var newRunningCost = current.RunningCost + actionCost;
+                var heuristicCost = CalculateHeuristic(newState, goal);
+
                 // Create a new node
                 var newNode = new PlanNode(
                     newState,
@@ -120,12 +105,12 @@ public class EnhancedGoapPlanner : GoapPlanner
                     current,
                     newRunningCost,
                     heuristicCost);
-                    
+
                 // Add the new node to the open set
                 openSet.Add(newNode);
             }
         }
-        
+
         // No plan found
         return [];
     }
@@ -137,13 +122,7 @@ public class EnhancedGoapPlanner : GoapPlanner
     /// <param name="goal">The goal state.</param>
     /// <returns>A heuristic cost estimate.</returns>
     private float CalculateHeuristic(Dictionary<string, bool> state, Dictionary<string, bool> goal)
-    {
-        // Simple heuristic: count the number of goal conditions not yet satisfied
-        float unsatisfiedGoals = goal.Count(g => 
-            !state.TryGetValue(g.Key, out var val) || val != g.Value);
-            
-        return unsatisfiedGoals;
-    }
+        => goal.Count(g => !state.TryGetValue(g.Key, out var val) || val != g.Value);
 
     /// <summary>
     /// Converts a state dictionary to a string for use as a key in the closed set.
@@ -152,7 +131,7 @@ public class EnhancedGoapPlanner : GoapPlanner
     /// <returns>A string representation of the state.</returns>
     private string SerializeState(Dictionary<string, bool> state)
     {
-        var sortedKeys = state.Keys.OrderBy(k => k);
+        var sortedKeys = state.Keys.Order();
         return string.Join(";", sortedKeys.Select(k => $"{k}={state[k]}"));
     }
 
@@ -165,19 +144,19 @@ public class EnhancedGoapPlanner : GoapPlanner
     {
         var actions = new List<GoapAction>();
         var current = node;
-        
+
         // Trace back from the goal node to the start node
-        while (current != null && current.Action != null)
+        while (current?.Action != null)
         {
             actions.Add(current.Action);
             current = current.Parent;
         }
-        
+
         // Reverse the actions to get them in execution order
         actions.Reverse();
         return actions;
     }
-    
+
     /// <summary>
     /// Plans a sequence of actions to achieve the specified goal from the current state.
     /// </summary>
@@ -188,8 +167,5 @@ public class EnhancedGoapPlanner : GoapPlanner
     public override List<GoapAction> Plan(
         Dictionary<string, bool> currentState,
         Dictionary<string, bool> goal,
-        List<GoapAction> availableActions)
-    {
-        return FindPlan(currentState, goal, availableActions);
-    }
+        List<GoapAction> availableActions) => FindPlan(currentState, goal, availableActions);
 }

@@ -24,7 +24,6 @@ public class EnhancedGoapAction(
     Func<Task>? executeAsync = null,
     object? context = null) : GoapAction(name, preconditions, effects, canExecute, execute)
 {
-
     /// <summary>
     /// The cost of executing this action. Higher values make the action less desirable.
     /// </summary>
@@ -162,7 +161,7 @@ public class EnhancedGoapAction(
     public async Task ExecuteAsyncTask()
     {
         Start();
-        
+
         if (ExecuteAsync != null)
         {
             await ExecuteAsync();
@@ -171,7 +170,7 @@ public class EnhancedGoapAction(
         {
             Execute();
         }
-        
+
         IsComplete = true;
         IsInProgress = false;
         Progress = 1;

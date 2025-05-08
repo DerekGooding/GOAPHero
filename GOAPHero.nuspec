@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>GOAPHero</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Derek Gooding</authors>
     <owners>Derek Gooding</owners>
     <license type="expression">MIT</license>

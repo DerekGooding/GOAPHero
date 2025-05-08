@@ -14,7 +14,6 @@
     <PackageTags>GOAP</PackageTags>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/DerekGooding/GOAPHero</PackageProjectUrl>
     <RepositoryUrl>https://github.com/DerekGooding/GOAPHero</RepositoryUrl>
     <PackageBugTrackerUrl>https://github.com/DerekGooding/GOAPHero/issues</PackageBugTrackerUrl>

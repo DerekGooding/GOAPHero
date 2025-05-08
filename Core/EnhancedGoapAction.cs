@@ -28,7 +28,7 @@ public class EnhancedGoapAction(
     /// <summary>
     /// The cost of executing this action. Higher values make the action less desirable.
     /// </summary>
-    public float Cost { get; set; } = cost;
+    new public float Cost { get; set; } = cost;
 
     /// <summary>
     /// An asynchronous function that executes the action.

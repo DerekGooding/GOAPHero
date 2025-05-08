@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Goap.Core</id>
+    <id>GOAPHero</id>
     <version>1.0.0</version>
     <authors>Derek Gooding</authors>
     <owners>Derek Gooding</owners>
     <license type="expression">MIT</license>
+    <readme>README.md</readme>
     <projectUrl>https://github.com/DerekGooding/GOAPHero
 </projectUrl>
     <description>A modular GOAP system with fluent builders and factory support.</description>

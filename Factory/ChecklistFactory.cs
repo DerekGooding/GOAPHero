@@ -1,4 +1,4 @@
-namespace GOAP.Factory;
+namespace GOAPHero.Factory;
 
 public static class ChecklistFactory
 {

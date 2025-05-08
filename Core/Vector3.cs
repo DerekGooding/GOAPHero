@@ -1,4 +1,4 @@
-namespace GOAP.Core;
+namespace GOAPHero.Core;
 public readonly struct Vector3(float X, float Y, float Z)
 {
     public float X { get; } = X;

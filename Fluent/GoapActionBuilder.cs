@@ -1,4 +1,4 @@
-namespace GOAP.Fluent;
+namespace GOAPHero.Fluent;
 
 public class GoapActionBuilder
 {

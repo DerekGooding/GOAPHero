@@ -1,1 +1,1 @@
-global using GOAP.Core;
+global using GOAPHero.Core;

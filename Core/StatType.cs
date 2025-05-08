@@ -1,4 +1,4 @@
-namespace GOAP.Core;
+namespace GOAPHero.Core;
 
 public enum StatType
 {

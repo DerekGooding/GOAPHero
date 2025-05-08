@@ -1,4 +1,4 @@
-namespace GOAP.Planning;
+namespace GOAPHero.Planning;
 
 public class GoapPlanner
 {

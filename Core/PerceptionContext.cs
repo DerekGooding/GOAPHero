@@ -1,4 +1,4 @@
-namespace GOAP.Core;
+namespace GOAPHero.Core;
 public class PerceptionContext
 {
     public List<(Item item, int quantity)> InventoryItems { get; set; } = [];

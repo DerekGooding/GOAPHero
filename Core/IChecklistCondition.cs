@@ -1,4 +1,4 @@
-namespace GOAP.Core;
+namespace GOAPHero.Core;
 public interface IChecklistCondition
 {
     string Key { get; }

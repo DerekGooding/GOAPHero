@@ -6,10 +6,10 @@
     <authors>Derek Gooding</authors>
     <owners>Derek Gooding</owners>
     <license type="expression">MIT</license>
-    <projectUrl>https://github.com/DerekGooding/GOAP_PlanningSystem
+    <projectUrl>https://github.com/DerekGooding/GOAPHero
 </projectUrl>
     <description>A modular GOAP system with fluent builders and factory support.</description>
     <tags>goap ai planning autonomous-agent</tags>
-    <repository type="git" url="https://github.com/DerekGooding/GOAP_PlanningSystem.git" />
+    <repository type="git" url="https://github.com/DerekGooding/GOAPHero.git" />
   </metadata>
 </package>

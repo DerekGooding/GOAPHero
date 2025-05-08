@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOAP_PlanningSystem", "GOAP_PlanningSystem.csproj", "{1F513B94-68B4-DB8E-E83C-90338BC83951}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GOAPHero", "GOAPHero.csproj", "{1F513B94-68B4-DB8E-E83C-90338BC83951}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

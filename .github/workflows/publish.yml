@@ -41,9 +41,6 @@ jobs:
             echo "run_publish=false" >> $GITHUB_ENV
           fi
 
-      - name: Restore dependencies
-        run: dotnet restore
-
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
@@ -51,4 +48,6 @@ jobs:
         run: dotnet pack --configuration Release --no-build --output ./nupkg
 
       - name: Push to NuGet
+        if: env.run_publish == 'true'
         run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        continue-on-error: true

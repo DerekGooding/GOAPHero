@@ -2,29 +2,53 @@ name: Publish NuGet Package
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '9.0'
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0'
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Get the version from the .csproj file
+        id: get_version
+        run: |
+          VERSION=$(cat GOAPHero.csproj | grep -oPm1 "(?<=<Version>)[^<]+")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+      - name: Get the latest published version from NuGet
+        id: get_latest_version
+        run: |
+          LATEST_VERSION=$(curl -s https://api.nuget.org/v3-flatcontainer/goaphero/index.json | jq -r '.versions | last')
+          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
 
-    - name: Pack NuGet package
-      run: dotnet pack --configuration Release --no-build --output ./nupkg
+      - name: Compare versions
+        id: version_check
+        run: |
+          if [ "$VERSION" != "$LATEST_VERSION" ]; then
+            echo "New version detected: $VERSION"
+            echo "run_publish=true" >> $GITHUB_ENV
+          else
+            echo "No new version detected"
+            echo "run_publish=false" >> $GITHUB_ENV
+          fi
 
-    - name: Push to NuGet
-      run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Pack NuGet package
+        run: dotnet pack --configuration Release --no-build --output ./nupkg
+
+      - name: Push to NuGet
+        run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

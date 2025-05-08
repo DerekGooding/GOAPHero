@@ -6,4 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  <PackageId>ConsoleHero</PackageId>
+  <Version>0.1.0</Version>
+  <Authors>Derek Gooding</Authors>
+  <Description>A library for making GOAP systems in C#.</Description>
+	<PackageTags>GOAP</PackageTags>
+
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageProjectUrl>https://github.com/DerekGooding/GOAPHero</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/DerekGooding/GOAPHero</RepositoryUrl>
+	<PackageBugTrackerUrl>https://github.com/DerekGooding/GOAPHero/issues</PackageBugTrackerUrl>
+  <RepositoryType>git</RepositoryType>	
 </Project>
